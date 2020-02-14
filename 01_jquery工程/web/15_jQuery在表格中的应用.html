@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jQuery.js"></script>
+    <script>
+        window.onload=main;
+        function main() {
+            $(":checkbox:first").click(AllCheck);
+            $(":checkbox:gt(0)").click(AllCheck2);
+            $("table tr:gt(0)").mouseover(HoverRed);
+            $("table tr:gt(0)").mouseleave(HoverWhite);
+
+        }
+        //全选与全不选-----通过标题行影响数据行
+        function AllCheck() {
+            //1.获得标题行的选中状态
+            var $obj = $(":checkbox").prop("checked");
+            //2.通过标题行的选中状态决定数据行选中状态
+            $(":checkbox:gt(0)").prop("checked",$obj);
+            isButton();
+        }
+        //全选与全不选-----通过数据行影响标题行
+        function AllCheck2() {
+            //1.获得数据行的checkbox数量
+            var allLength = $(":checkbox:gt(0)").length;
+            //2.判断数据行选中状态的个数
+            var selectLength = $(":checkbox:gt(0):checked").length;
+            //3.判断数据行选中个数是否==所有个数
+            if(allLength==selectLength)
+                $(":checkbox:first").prop("checked",true);
+            else
+                $(":checkbox:first").prop("checked",false);
+            isButton();
+        }
+        //将鼠标悬停的数据行背景颜色设置为红色
+        function HoverRed() {
+            //this：鼠标悬停的tr标签的DOM对象
+            $(this).css("background-color","red")
+        }
+        function HoverWhite() {
+            //this：鼠标离开的tr标签的DOM对象
+            $(this).css("background-color","white")
+        }
+        //根据选中的checkbox按钮是否可用
+        function isButton() {
+            //1.得到用户选中按钮数量
+            var selectLength = $(":checkbox:gt(0):checked").length;
+            //2.判断数量是否大于0
+            if(selectLength>0){
+                //按钮可用
+                $(":button").prop("disabled",false);
+            }else {
+                $(":button").prop("disabled",true);
+            }
+        }
+    </script>
+</head>
+<body>
+<table border="2">
+    <tr>
+        <td>职员姓名</td>
+        <td>职员职位</td>
+        <td>职员工资</td>
+        <td>
+            <input type="checkbox">全选与全不选
+            <input type="button" value="删除" disabled>
+        </td>
+    </tr>
+    <tr>
+        <td>mike</td>
+        <td>低级工程师</td>
+        <td>6000</td>
+        <td>
+            <input type="checkbox">
+        </td>
+    </tr>
+    <tr>
+        <td>allen</td>
+        <td>中级工程师</td>
+        <td>10000</td>
+        <td>
+            <input type="checkbox">
+        </td>
+    </tr>
+    <tr>
+        <td>david</td>
+        <td>高级工程师</td>
+        <td>30000</td>
+        <td>
+            <input type="checkbox">
+        </td>
+    </tr>
+</table>
+</body>
+</html>
